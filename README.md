@@ -1,10 +1,12 @@
-## MyTrips Starter Project (Main Branch)
+## MyTrips Starter
+
+## V1-Map-Marker-Annotation-Region
 
 ![mac128](Images/mac128.png)This repository contains the source code for the entire series on iOS 17 MapKit with SwiftData integration.
 
 Each video in the series has its own branch so if you have not started from the beginning, make sure that you clone or download the correct branch for the video.
 
-This is the branch for the Starter Project, where the first video begins.
+This is the branch for the completed code for the first video on MapKit introduction with Markers, annotations, regions and camera positions.
 
 If you want to support my work, you can - </br>
 
