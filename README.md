@@ -1,5 +1,3 @@
-## MyTrips Starter
-
 ## V1-Map-Marker-Annotation-Region
 
 ![mac128](Images/mac128.png)This repository contains the source code for the entire series on iOS 17 MapKit with SwiftData integration.
