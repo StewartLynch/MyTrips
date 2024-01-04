@@ -1,10 +1,10 @@
-## V1-Map-Marker-Annotation-Region
+## V2-Mapkit - SwiftData Persistence and Mock Data
 
 ![mac128](Images/mac128.png)This repository contains the source code for the entire series on iOS 17 MapKit with SwiftData integration.
 
 Each video in the series has its own branch so if you have not started from the beginning, make sure that you clone or download the correct branch for the video.
 
-This is the branch for the completed code for the first video on MapKit introduction with Markers, annotations, regions and camera positions.
+This is the branch for the completed code for the 2nd video on MapKit where a data persistence layer is added using SwiftData so that you will be able to safe your preferred destinations and markers.
 
 If you want to support my work, you can - </br>
 
