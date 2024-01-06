@@ -21,7 +21,7 @@ struct StartTab: View {
                     .tabItem {
                     Label("TripMap", systemImage: "map")
                 }
-                DestinationLocationsMapView()
+                DestinationsListView()
                     .tabItem {
                         Label("Destinations", systemImage: "globe.desk")
                     }
@@ -36,4 +36,5 @@ struct StartTab: View {
 
 #Preview {
     StartTab()
+        .modelContainer(Destination.preview)
 }
