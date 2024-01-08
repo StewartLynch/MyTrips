@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB5C88A42B4BC17300722F02 /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5C88A32B4BC17300722F02 /* MapManager.swift */; };
 		BB722E962B43DEFA003EFCC1 /* SampleParisLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB722E952B43DEFA003EFCC1 /* SampleParisLocations.swift */; };
 		BB7511312B476624009864DF /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7511302B476624009864DF /* Destination.swift */; };
 		BB7511332B47670C009864DF /* MTPlacemark.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7511322B47670C009864DF /* MTPlacemark.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BB5C88A32B4BC17300722F02 /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
 		BB722E952B43DEFA003EFCC1 /* SampleParisLocations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleParisLocations.swift; sourceTree = "<group>"; };
 		BB7511302B476624009864DF /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		BB7511322B47670C009864DF /* MTPlacemark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPlacemark.swift; sourceTree = "<group>"; };
@@ -46,6 +48,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BB5C88A22B4BC15C00722F02 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BB5C88A32B4BC17300722F02 /* MapManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		BB75112F2B476613009864DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +89,7 @@
 				BB9432DC2B41D7D8007BAAC6 /* My Trip Tab */,
 				BB9432DD2B41D7ED007BAAC6 /* Destinations Tab */,
 				BB75112F2B476613009864DF /* Models */,
+				BB5C88A22B4BC15C00722F02 /* Services */,
 				BB9432CC2B41D635007BAAC6 /* Assets.xcassets */,
 				BB9432D62B41D688007BAAC6 /* Launch Screen.storyboard */,
 				BB722E952B43DEFA003EFCC1 /* SampleParisLocations.swift */,
@@ -187,6 +198,7 @@
 				BB81FA222B49FE1700667980 /* DestinationsListView.swift in Sources */,
 				BB722E962B43DEFA003EFCC1 /* SampleParisLocations.swift in Sources */,
 				BB7511312B476624009864DF /* Destination.swift in Sources */,
+				BB5C88A42B4BC17300722F02 /* MapManager.swift in Sources */,
 				BB9432DB2B41D76F007BAAC6 /* DestinationLocationsMapView.swift in Sources */,
 				BB7511332B47670C009864DF /* MTPlacemark.swift in Sources */,
 				BB9432C92B41D633007BAAC6 /* MyTripsApp.swift in Sources */,
