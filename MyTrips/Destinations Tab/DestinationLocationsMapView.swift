@@ -20,11 +20,13 @@ struct DestinationLocationsMapView: View {
     @State private var visibleRegion: MKCoordinateRegion?
     @State private var searchText = ""
     @FocusState private var searchFieldFocus: Bool
-    @Query(filter: #Predicate<MTPlacemark>{$0.destination == nil}) private var searchPlacemarks: [MTPlacemark]
+    @Query(filter: #Predicate<MTPlacemark> {$0.destination == nil}) private var searchPlacemarks: [MTPlacemark]
     private var listPlacemarks: [MTPlacemark] {
         searchPlacemarks + destination.placemarks
     }
     var destination: Destination
+    @State private var selectedPlacemark: MTPlacemark?
+    
     var body: some View {
         @Bindable var destination = destination
         VStack {
@@ -51,22 +53,34 @@ struct DestinationLocationsMapView: View {
             }
         }
         .padding(.horizontal)
-        Map(position: $cameraPosition) {
+        Map(position: $cameraPosition, selection: $selectedPlacemark) {
             ForEach(listPlacemarks) { placemark in
-                if placemark.destination != nil {
-                    Marker(coordinate: placemark.coordinate) {
-                        Label(placemark.name, systemImage: "star")
+                Group {
+                    if placemark.destination != nil {
+                        Marker(coordinate: placemark.coordinate) {
+                            Label(placemark.name, systemImage: "star")
+                        }
+                        .tint(.yellow)
+                    } else {
+                        Marker(placemark.name, coordinate: placemark.coordinate)
                     }
-                    .tint(.yellow)
-                } else {
-                    Marker(placemark.name, coordinate: placemark.coordinate)
-                }
+                }.tag(placemark)
             }
+        }
+        .sheet(item: $selectedPlacemark) { selectedPlacemark in
+            LocationDetailView(
+                destination: destination,
+                selectedPlacemark: selectedPlacemark
+            )
+                .presentationDetents([.height(450)])
+
         }
         .safeAreaInset(edge: .bottom) {
             HStack {
-                TextField("Search....", text: $searchText)
+                TextField("Search...", text: $searchText)
                     .textFieldStyle(.roundedBorder)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                     .focused($searchFieldFocus)
                     .overlay(alignment: .trailing) {
                         if searchFieldFocus {
@@ -81,18 +95,19 @@ struct DestinationLocationsMapView: View {
                     }
                     .onSubmit {
                         Task {
-                                await MapManager.searchPlaces(
-                                    modelContext,
-                                    searchText: searchText,
-                                    visibleRegion: visibleRegion
-                                )
-                                searchText = ""
-                            }
+                            await MapManager.searchPlaces(
+                                modelContext,
+                                searchText: searchText,
+                                visibleRegion: visibleRegion
+                            )
+                            searchText = ""
+                            cameraPosition = .automatic
+                        }
                     }
                 if !searchPlacemarks.isEmpty {
                     Button {
                         MapManager.removeSearchResults(modelContext)
-                    } label: {
+                    }label: {
                         Image(systemName: "mappin.slash.circle.fill")
                             .imageScale(.large)
                     }
@@ -127,7 +142,6 @@ struct DestinationLocationsMapView: View {
     let destination = try! container.mainContext.fetch(fetchDescriptor)[0]
     return NavigationStack {
         DestinationLocationsMapView(destination: destination)
-        
     }
     .modelContainer(Destination.preview)
 }

@@ -1,6 +1,6 @@
 //
 // Created for MyTrips
-// by  Stewart Lynch on 2024-01-07
+// by  Stewart Lynch on 2024-01-09
 //
 // Follow me on Mastodon: @StewartLynch@iosdev.space
 // Follow me on Threads: @StewartLynch (https://www.threads.net)
@@ -15,11 +15,107 @@ import MapKit
 import SwiftData
 
 struct LocationDetailView: View {
+    @Environment(\.dismiss) private var dismiss
+    var destination: Destination?
+    var selectedPlacemark: MTPlacemark?
+    
+    @State private var name = ""
+    @State private var address = ""
+    
+    var isChanged: Bool {
+        guard let selectedPlacemark else { return false}
+        return (name != selectedPlacemark.name || address != selectedPlacemark.address)
+    }
+    
+    @State private var lookaroundScene: MKLookAroundScene?
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            HStack {
+                VStack(alignment: .leading) {
+                    TextField("Name", text: $name)
+                        .font(.title)
+                    TextField("Address", text: $address, axis: .vertical)
+                    if isChanged {
+                        Button("Update") {
+                            selectedPlacemark?.name = name
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
+                            selectedPlacemark?.address = address
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .buttonStyle(.bordered)
+                    }
+                }
+                .textFieldStyle(.roundedBorder)
+                Spacer()
+                Button {
+                    dismiss()
+
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .imageScale(.large)
+                        .foregroundStyle(.gray)
+                }
+            }
+            if let lookaroundScene {
+                LookAroundPreview(initialScene: lookaroundScene)
+                    .frame(height: 200)
+                    .padding()
+            } else {
+                ContentUnavailableView("No Preview Available", systemImage: "eye.slash")
+            }
+            HStack{
+                Spacer()
+                if let destination {
+                    let inList = (selectedPlacemark != nil && selectedPlacemark?.destination != nil)
+                    Button {
+                        if let selectedPlacemark {
+                            if selectedPlacemark.destination == nil {
+                                destination.placemarks.append(selectedPlacemark)
+                            } else {
+                                selectedPlacemark.destination = nil
+                            }
+                            dismiss()
+                        }
+                    } label: {
+                        Label(inList ? "Remove" : "Add", systemImage: inList ? "minus.circle" : "plus.circle")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(inList ? .red : .green)
+                    .disabled((name.isEmpty || isChanged))
+                }
+            }
+            Spacer()
+        }
+        .padding()
+        .task(id: selectedPlacemark) {
+            await fetchLookAroundPreview()
+        }
+        .onAppear {
+            if let selectedPlacemark,destination != nil {
+                name = selectedPlacemark.name
+                address = selectedPlacemark.address
+            }
+        }
+    }
+    
+    func  fetchLookAroundPreview() async {
+        if let selectedPlacemark {
+            lookaroundScene = nil
+            let lookaroundRequest = MKLookAroundSceneRequest(coordinate: selectedPlacemark.coordinate)
+            lookaroundScene = try? await lookaroundRequest.scene
+        }
     }
 }
 
-#Preview {
-    LocationDetailView()
+#Preview{
+    let container = Destination.preview
+    let fetchDescriptor = FetchDescriptor<Destination>()
+    let destination = try! container.mainContext.fetch(fetchDescriptor)[0]
+    let selectedPlacemark = destination.placemarks[0]
+    
+    return LocationDetailView(
+        destination: destination,
+        selectedPlacemark: selectedPlacemark
+    )
 }
