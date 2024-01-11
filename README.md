@@ -1,10 +1,10 @@
-## V4-Mapkit - MapManager and Searching
+## V5-Mapkit - Marker Selection and Lookaround
 
 ![mac128](Images/mac128.png)This repository contains the source code for the entire series on iOS 17 MapKit with SwiftData integration.
 
 Each video in the series has its own branch so if you have not started from the beginning, make sure that you clone or download the correct branch for the video.
 
-This is the branch for the completed code for the 4th video on MapKit where create a MapManager service with functions that will allow us to search for and locate sites based on a natural language search.
+This is the branch for the completed code for the 5th video on MapKit you learn how you can select markers, edit them and add or remove them from a destinations placemarks.  You also learn about the MapKit Lookaround view
 
 If you want to support my work, you can - </br>
 
