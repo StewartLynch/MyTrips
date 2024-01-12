@@ -44,6 +44,7 @@ struct LocationDetailView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .buttonStyle(.bordered)
+                        .autocorrectionDisabled()
                     }
                 }
                 .textFieldStyle(.roundedBorder)
