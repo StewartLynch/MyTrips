@@ -47,6 +47,7 @@ struct LocationDetailView: View {
                     }
                 }
                 .textFieldStyle(.roundedBorder)
+                .autocorrectionDisabled()
                 Spacer()
                 Button {
                    dismiss()
