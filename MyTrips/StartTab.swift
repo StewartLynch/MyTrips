@@ -13,7 +13,6 @@
 import SwiftUI
 
 struct StartTab: View {
-
     var body: some View {
         TabView {
             Group {
