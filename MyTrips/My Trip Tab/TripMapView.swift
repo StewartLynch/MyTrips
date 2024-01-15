@@ -15,26 +15,97 @@ import MapKit
 import SwiftData
 
 struct TripMapView: View {
+    @Environment(\.modelContext) var modelContext
     @Environment(LocationManager.self) var locationManager
     @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
     @Query private var listPlacemarks: [MTPlacemark]
+    // Search
+    @State private var searchText = ""
+    @FocusState private var searchFieldFocus: Bool
+    @Query(filter: #Predicate<MTPlacemark> {$0.destination == nil}) private var searchPlacemarks: [MTPlacemark]
+    @State private var selectedPlacemark: MTPlacemark?
+    @State private var visibleRegion: MKCoordinateRegion?
+    
     var body: some View {
-        Map(position: $cameraPosition) {
+        Map(position: $cameraPosition, selection: $selectedPlacemark) {
             UserAnnotation()
             ForEach(listPlacemarks) { placemark in
-                Marker(coordinate: placemark.coordinate) {
-                    Label(placemark.name, systemImage: "star")
+                Group {
+                    if placemark.destination != nil {
+                        Marker(coordinate: placemark.coordinate) {
+                            Label(placemark.name, systemImage: "star")
+                        }
+                        .tint(.yellow)
+                    } else {
+                        Marker(placemark.name, coordinate: placemark.coordinate)
+                    }
                 }
-                .tint(.yellow)
+                .tag(placemark)
             }
+        }
+        .sheet(item: $selectedPlacemark) { selectedPlacemark in
+            LocationDetailView(
+                destination: nil,
+                selectedPlacemark: selectedPlacemark
+            )
+                .presentationDetents([.height(450)])
+
         }
         .mapControls{
             MapUserLocationButton()
         }
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                VStack {
+                    TextField("Search...", text: $searchText)
+                        .textFieldStyle(.roundedBorder)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                        .focused($searchFieldFocus)
+                        .overlay(alignment: .trailing) {
+                            if searchFieldFocus {
+                                Button {
+                                    searchText = ""
+                                    searchFieldFocus = false
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                }
+                                .offset(x: -5)
+                            }
+                        }
+                        .onSubmit {
+                            Task {
+                                await MapManager.searchPlaces(
+                                    modelContext,
+                                    searchText: searchText,
+                                    visibleRegion: visibleRegion
+                                )
+                                searchText = ""
+                            }
+                        }
+                }
+                .padding()
+                VStack {
+                    if !searchPlacemarks.isEmpty {
+                        Button {
+                            MapManager.removeSearchResults(modelContext)
+                        } label: {
+                            Image(systemName: "mappin.slash")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.red)
+                    }
+                }
+                .padding()
+                .buttonBorderShape(.circle)
+            }
+        }
         .onAppear {
             updateCameraPosition()
         }
-
+        .onMapCameraChange { context in
+            visibleRegion = context.region
+        }
     }
     
     func updateCameraPosition() {
@@ -56,4 +127,5 @@ struct TripMapView: View {
 #Preview {
     TripMapView()
         .environment(LocationManager())
+        .modelContainer(Destination.preview)
 }
