@@ -99,7 +99,8 @@ struct DestinationLocationsMapView: View {
         .sheet(item: $selectedPlacemark) { selectedPlacemark in
             LocationDetailView(
                 destination: destination,
-                selectedPlacemark: selectedPlacemark
+                selectedPlacemark: selectedPlacemark,
+                showRoute: .constant(false)
             )
                 .presentationDetents([.height(450)])
 

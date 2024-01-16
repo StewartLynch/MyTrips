@@ -18,6 +18,9 @@ struct LocationDetailView: View {
     @Environment(\.dismiss) private var dismiss
     var destination: Destination?
     var selectedPlacemark: MTPlacemark?
+    @Binding var showRoute: Bool
+    @State private var routeDisplaying = false
+    @State private var route: MKRoute?
     
     @State private var name = ""
     @State private var address = ""
@@ -108,7 +111,7 @@ struct LocationDetailView: View {
                         }
                         .fixedSize(horizontal: true, vertical: false)
                         Button("Show Route", systemImage: "location.north") {
-                            
+                            showRoute.toggle()
                         }
                         .fixedSize(horizontal: true, vertical: false)
                     }
@@ -146,7 +149,8 @@ struct LocationDetailView: View {
     
     return LocationDetailView(
         destination: destination,
-        selectedPlacemark: selectedPlacemark
+        selectedPlacemark: selectedPlacemark,
+        showRoute: .constant(false)
     )
 }
 
@@ -158,6 +162,7 @@ struct LocationDetailView: View {
     
     return LocationDetailView(
         destination: nil,
-        selectedPlacemark: selectedPlacemark
+        selectedPlacemark: selectedPlacemark,
+        showRoute: .constant(false)
     )
 }
