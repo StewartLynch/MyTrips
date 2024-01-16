@@ -1,10 +1,10 @@
-## V7-Mapkit - UserLocation and LocationManager
+## V8-Mapkit - UserLocation Search and Open in Maps
 
 ![mac128](Images/mac128.png)This repository contains the source code for the entire series on iOS 17 MapKit with SwiftData integration.
 
 Each video in the series has its own branch so if you have not started from the beginning, make sure that you clone or download the correct branch for the video.
 
-This is the branch for the completed code for the 7th video on MapKit we will be working on the first or opening tab where I will show you how you can ask for permission and if granted, show the users's location on the map.  We will also create a new service class that will manage this authorization and guide the user to enabling it if users somehow deny it.
+This is the branch for the completed code for the 8th video on MapKit we will be adding search capabilities to the TripMaps screen and modify the LocationDetailsView to accommodate changes.  We will also be adding an Open In Maps button to the detail view.
 
 If you want to support my work, you can - </br>
 
