@@ -100,7 +100,9 @@ struct DestinationLocationsMapView: View {
             LocationDetailView(
                 destination: destination,
                 selectedPlacemark: selectedPlacemark,
-                showRoute: .constant(false)
+                showRoute: .constant(false),
+                travelInterval: .constant(nil),
+                transportType: .constant(.automobile)
             )
                 .presentationDetents([.height(450)])
 

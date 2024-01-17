@@ -39,4 +39,16 @@ enum MapManager {
         let searchPredicate = #Predicate<MTPlacemark>{$0.destination == nil}
         try? modelContext.delete(model: MTPlacemark.self, where: searchPredicate)
     }
+    
+    static func distance(meters: Double) -> String {
+        let userLocale = Locale.current
+        let formatter = MeasurementFormatter()
+        var options: MeasurementFormatter.UnitOptions = []
+        options.insert(.providedUnit)
+        options.insert(.naturalScale)
+        formatter.unitOptions = options
+        let meterValue = Measurement(value: meters, unit: UnitLength.meters)
+        let yardsValue = Measurement(value: meters, unit: UnitLength.yards)
+        return formatter.string(from: userLocale.measurementSystem == .metric ? meterValue : yardsValue)
+    }
 }
