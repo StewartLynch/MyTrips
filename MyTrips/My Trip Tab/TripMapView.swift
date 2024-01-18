@@ -35,9 +35,12 @@ struct TripMapView: View {
     @State private var transportType = MKDirectionsTransportType.automobile
     
     @State private var showSteps = false
+    @Namespace var mapScope
+    @State private var mapStyleConfig = MapStyleConfig()
+    @State private var pickMapStyle = false
     
     var body: some View {
-        Map(position: $cameraPosition, selection: $selectedPlacemark) {
+        Map(position: $cameraPosition, selection: $selectedPlacemark, scope: mapScope) {
             UserAnnotation()
             ForEach(listPlacemarks) { placemark in
                 if !showRoute{
@@ -76,7 +79,7 @@ struct TripMapView: View {
 
         }
         .mapControls{
-            MapUserLocationButton()
+            MapScaleView()
         }
         .safeAreaInset(edge: .bottom) {
             HStack {
@@ -157,11 +160,32 @@ struct TripMapView: View {
                         .buttonStyle(.borderedProminent)
                         .tint(.red)
                     }
+                    Button {
+                        pickMapStyle.toggle()
+                    } label: {
+                        Image(systemName: "globe.americas.fill")
+                            .imageScale(.large)
+                    }
+                    .padding(8)
+                    .background(.thickMaterial)
+                    .clipShape(.circle)
+                    .sheet(isPresented: $pickMapStyle) {
+                        MapStyleView(mapStyleConfig: $mapStyleConfig)
+                            .presentationDetents([.height(275)])
+                    }
+                    MapUserLocationButton(scope: mapScope)
+                    MapCompass(scope: mapScope)
+                        .mapControlVisibility(.visible)
+                    MapPitchToggle(scope: mapScope)
+                        .mapControlVisibility(.visible)
+
                 }
                 .padding()
                 .buttonBorderShape(.circle)
             }
         }
+        .mapScope(mapScope)
+        .mapStyle(mapStyleConfig.mapStyle)
         .onAppear {
             MapManager.removeSearchResults(modelContext)
             updateCameraPosition()
