@@ -8,7 +8,7 @@ This is the branch for the Starter Project, where the first video begins.
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=9xzHJAT_Iqk
 " target="_blank"><img src="http://img.youtube.com/vi/9xzHJAT_Iqk/0.jpg" 
-alt="My Trips" width="480" height="360" border="1" /></a>
+alt="MapKit With SwiftUI V1" width="480" height="360" border="1" /></a>
 
 If you want to support my work, you can - </br>
 
