@@ -6,6 +6,10 @@ Each video in the series has its own branch so if you have not started from the 
 
 This is the branch for the completed code for the 6th video on MapKit you learn how you can tap at a location in the map and create a new marker at that location.
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=jjm8WOn0Xhk
+" target="_blank"><img src="http://img.youtube.com/vi/jjm8WOn0Xhk/0.jpg" 
+alt="Tap Marker Placement" width="480" height="360" border="1" /></a>
+
 If you want to support my work, you can - </br>
 
 <a href='https://ko-fi.com/Z8Z22WRVG' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi3.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
